@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # define the base URL
-base_url=https://localhost:5001/todo
+base_url=http://localhost:5000/todo
 
 # query empty todo items list
 curl -k -X GET "$base_url"
