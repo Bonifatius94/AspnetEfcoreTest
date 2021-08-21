@@ -29,7 +29,7 @@ namespace EfcoreTest.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<TodoContext>(); // TODO: check if the context gets passed to the controller properly
+            services.AddDbContext<TodoContext>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EfcoreTest.Api", Version = "v1" });
@@ -52,15 +52,13 @@ namespace EfcoreTest.Api
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
+            // create data schema on first startup
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<TodoContext>();
-                context.Database.Migrate();
+                context.Database.EnsureCreated();
             }
         }
     }
