@@ -5,6 +5,10 @@
 This project is supposed to be a boilerplate for testing an ASP.NET Web API
 using EntityFramework Core (SQLite) as data storage in a dockerized context.
 
+Note that this service exposes its endpoint via HTTPS which requires quite
+some configuration effort to get it to work. That is because the standard
+configuration from the Microsoft docs does not work right away.
+
 ## Install Build Toolchain
 First, you need to install Docker to your machine if you haven't done already.
 
