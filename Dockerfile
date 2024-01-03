@@ -1,6 +1,6 @@
 
 # use the official Microsoft .NET 5 build image
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 
 # move to the src target dir
 WORKDIR /app/src
@@ -24,7 +24,7 @@ RUN dotnet publish --runtime linux-x64 --configuration Release \
                    --output /app/bin/ --no-restore
 
 # define the .NET 5 runtime image
-FROM mcr.microsoft.com/dotnet/runtime:5.0
+FROM mcr.microsoft.com/dotnet/runtime:7.0
 WORKDIR /app/bin
 COPY --from=build-env /app/bin /app/bin
 
