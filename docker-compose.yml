@@ -3,6 +3,9 @@ version: "2"
 services:
   aspnet-efcore-test:
     image: aspnet-efcore-test
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     environment:
       ASPNETCORE_URLS: "https://+;http://+"
       ASPNETCORE_HTTP_PORT: 80

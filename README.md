@@ -71,11 +71,8 @@ Use following commands to build the ASP.NET service as Docker image, deploy it
 as a docker-compose service and run the API test script (integration tests).
 
 ```sh
-# build the docker image
-docker build . -t "aspnet-efcore-test"
-
-# start a new service instance of the image
-docker-compose up -d
+# build the docker image and start a new service instance
+docker-compose up -d --build
 
 # run the API test script
 ./tests/test_api.sh
