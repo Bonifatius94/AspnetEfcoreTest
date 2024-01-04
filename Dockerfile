@@ -1,5 +1,9 @@
 
-# use the official Microsoft .NET 5 build image
+# -----------------------------------
+#       B U I L D   S T A G E
+# -----------------------------------
+
+# use the official Microsoft .NET build image
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 
 # move to the src target dir
@@ -16,17 +20,23 @@ RUN dotnet restore --runtime linux-x64
 # copy the source code
 ADD ./src/ ./
 
-# TODO: run the unit tests here ...
+# run the unit tests
 RUN dotnet test --runtime linux-x64 --configuration Release --no-restore
 
 # make a release build
 RUN dotnet publish --runtime linux-x64 --configuration Release \
                    --output /app/bin/ --no-restore
 
-# define the .NET 5 runtime image
-FROM mcr.microsoft.com/dotnet/runtime:7.0
+# -----------------------------------
+#      D E P L O Y   S T A G E
+# -----------------------------------
+
+# use the official Microsoft .NET runtime image
+FROM mcr.microsoft.com/dotnet/runtime:7.0 AS runtime-env
+
+# deploy the release build to the runtime
 WORKDIR /app/bin
 COPY --from=build-env /app/bin /app/bin
 
-# launch the daemon test service on container startup
+# launch the ASP.NET service on container startup
 ENTRYPOINT ["dotnet", "EfcoreTest.Api.dll"]
